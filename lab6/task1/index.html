@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Список покупок</title>
+</head>
+<body>
+
+<h2>Список покупок</h2>
+
+<input type="text" id="input" placeholder="Введите товар">
+<button id="button">Добавить</button>
+
+<ul id="list"></ul>
+
+<script>
+    const input = document.querySelector("#input");
+    const button = document.querySelector("#button");
+    const list = document.querySelector("#list");
+
+    button.addEventListener("click", function() {
+        if (input.value == "") {
+            alert("Введите товар");
+            return;
+        }
+
+        const item = document.createElement("li");
+        item.textContent = input.value;
+
+        item.addEventListener("click", function() {
+            item.style.textDecoration = "line-through";
+        });
+
+        list.append(item);
+
+        input.value = "";
+    });
+</script>
+
+</body>
+</html>

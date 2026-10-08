@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Заметки</title>
+</head>
+<body>
+
+<h2>Мои заметки</h2>
+
+<input type="text" id="input" placeholder="Введите заметку">
+<button id="button">Добавить</button>
+
+<ul id="list"></ul>
+
+<script>
+    const input = document.querySelector("#input");
+    const button = document.querySelector("#button");
+    const list = document.querySelector("#list");
+
+    button.addEventListener("click", function() {
+        if (input.value == "") {
+            alert("Введите заметку");
+            return;
+        }
+
+        const item = document.createElement("li");
+        item.textContent = input.value;
+
+        const deleteButton = document.createElement("button");
+        deleteButton.textContent = "Удалить";
+
+        deleteButton.addEventListener("click", function() {
+            item.remove();
+        });
+
+        item.append(deleteButton);
+        list.append(item);
+
+        input.value = "";
+    });
+</script>
+
+</body>
+</html>
