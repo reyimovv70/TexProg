@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Игра "Угадай число"</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+            text-align: center;
+            padding-top: 50px;
+        }
+
+        .container {
+            width: 400px;
+            margin: auto;
+            background-color: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 0 10px gray;
+        }
+
+        h1 {
+            color: #2563eb;
+        }
+
+        input {
+            width: 90%;
+            padding: 10px;
+            margin: 10px;
+            font-size: 18px;
+        }
+
+        button {
+            padding: 10px 15px;
+            margin: 5px;
+            background-color: #2563eb;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #1d4ed8;
+        }
+
+        #message {
+            font-size: 20px;
+            margin: 20px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+
+        <h1>🎯 Угадай число</h1>
+
+        <p>Я загадал число от 1 до 100.</p>
+        <p>Попробуй его угадать!</p>
+
+        <input
+            type="number"
+            id="userNumber"
+            placeholder="Введите число"
+        >
+
+        <br>
+
+        <button id="checkButton">
+            Проверить
+        </button>
+
+        <button id="newGameButton">
+            Новая игра
+        </button>
+
+        <button id="themeButton">
+            Темная тема
+        </button>
+
+        <div id="message">
+            Введите число
+        </div>
+
+        <p id="attempts">
+            Количество попыток: 0
+        </p>
+
+    </div>
+
+    <script src="script.js"></script>
+
+</body>
+</html>
