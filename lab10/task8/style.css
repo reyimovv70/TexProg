@@ -1,0 +1,9 @@
+body { font: 16px Arial, sans-serif; margin: 2rem; max-width: 500px; }
+#task-input { padding: .4rem; width: 60%; }
+button { padding: .4rem .8rem; cursor: pointer; }
+#message { min-height: 1.5em; }
+#message.error { color: #c0392b; }
+#message.ok { color: #27ae60; }
+ul { padding-left: 0; list-style: none; }
+li { margin: .5rem 0; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #ddd; padding-bottom: .4rem; }
+li.empty { color: #888; border: none; }
