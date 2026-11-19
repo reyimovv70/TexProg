@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Кабинет преподавателя</title>
+<style>body{font-family:system-ui,sans-serif;background:#f4f5f7;margin:0}main{max-width:520px;margin:40px auto;background:#fff;padding:24px;border-radius:10px;box-shadow:0 2px 8px #0002}form{display:flex;gap:8px;margin:12px 0;flex-wrap:wrap}input{flex:1;padding:8px;border:1px solid #bbb;border-radius:6px}button{padding:8px 14px;border:0;border-radius:6px;background:#2d6cdf;color:#fff;cursor:pointer}.bar{display:flex;justify-content:space-between;align-items:center;gap:8px}li{padding:6px 0;border-bottom:1px solid #eee}.hint{color:#777;font-size:13px}#status{min-height:1.4em}.err{color:#c0392b}.ok{color:#1e8449}</style>
+</head>
+<body><main>
+  <h1>Кабинет преподавателя</h1>
+  <div class="bar"><span>Вы: <b id="who"></b> · сессия: <span id="timer"></span></span><button id="logout">Выйти</button></div>
+  <h2>Оценки студентов</h2><ul id="list"></ul>
+  <button id="tryOther">Открыть раздел студента</button>
+  <p id="status" role="status"></p>
+</main>
+<script>
+const $ = (s) => document.querySelector(s);
+const msg = (t, c = "") => { $("#status").textContent = t; $("#status").className = c; };
+async function api(url, method = "GET") {
+  const res = await fetch(url, { method, credentials: "same-origin" });
+  const data = await res.json().catch(() => ({}));
+  if (res.status === 401) location.href = "/?expired=1"; // сессии нет или истекла
+  return { status: res.status, ok: res.ok, data };
+}
+async function initPage() {
+  const me = await api("/api/me");
+  if (!me.ok) return null;
+  $("#who").textContent = me.data.name + " (" + me.data.role + ")";
+  const exp = me.data.expiresAt;
+  // Творческое задание: индикатор оставшегося времени сессии
+  const id = setInterval(() => {
+    const left = Math.max(0, Math.round((exp - Date.now()) / 1000));
+    $("#timer").textContent = Math.floor(left / 60) + ":" + String(left % 60).padStart(2, "0");
+    if (left === 0) { clearInterval(id); api("/api/me"); }
+  }, 1000);
+  $("#logout").onclick = async () => { await api("/api/logout", "POST"); location.href = "/"; };
+  return me.data;
+}
+function fillList(ul, items, fmt) {
+  ul.textContent = "";
+  for (const it of items) { const li = document.createElement("li"); li.textContent = fmt(it); ul.append(li); }
+}
+(async () => {
+  if (!(await initPage())) return;
+  const r = await api("/api/teacher/grades");
+  if (r.ok) fillList($("#list"), r.data, (g) => g.student + " — " + g.work + ": " + g.grade);
+  $("#tryOther").onclick = async () => {
+    const t = await api("/api/student/lessons");
+    msg(t.status === 403 ? "Сервер ответил 403: доступ запрещён для роли teacher" : "Статус: " + t.status, "err");
+  };
+})();
+</script></body></html>

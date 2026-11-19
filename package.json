@@ -1,0 +1,7 @@
+{
+  "name": "lab12-roles",
+  "version": "1.0.0",
+  "description": "Лаб. работа №12, вариант 8: две роли (student/teacher), проверка роли на сервере",
+  "scripts": { "start": "node server.js", "test": "node test.js" },
+  "dependencies": { "express": "^4.19.2", "express-session": "^1.18.0" }
+}
